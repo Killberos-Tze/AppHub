@@ -4,7 +4,7 @@ from tkinter import Frame, Tk, Button
 import sys
 
 
-class landingWindow():
+class MultipleApps():
     def init_start(self):
         self.root.mainloop()
     
@@ -64,6 +64,33 @@ class landingWindow():
         self.root.title('Application hub')
         self.root.geometry('%dx%d+%d+%d' % (350, 400, 50, 50))
         
-if __name__=='__main__':
-    landingWindow.init_start(landingWindow())
+        
+class SingleApp(MultipleApps):
+    def init_start(self):
+        self.root.mainloop()
+    
+    def __init__(self,**kwargs):
+        self.root = Tk()
+        self.root.title('Application hub')
+        self.root.geometry('%dx%d+%d+%d' % (350, 400, 50, 50))
+        self.rootframe = Frame(self.root)
+        self.rootframe.pack(pady = (25,25), padx = (25,25))
+        self.process_kwargs(kwargs)
+        app=kwargs['app']
+        tmp=app(parent=self.rootframe)
+        tmp.grid(row=0,column=0)
+        self.root.title(str(tmp))
+        try:
+            self.root.geometry('%dx%d+%d+%d' % tmp.appgeometry)
+        except:
+            pass
+
+     
+    def process_kwargs(self,kwargs):
+        if 'app' not in kwargs:
+            sys.exit()
+        return kwargs
+        
+#if __name__=='__main__':
+#    MultipleApps.init_start(MultipleApps())
     

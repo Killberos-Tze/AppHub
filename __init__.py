@@ -1,3 +1,3 @@
-__all__=['landingWindow']
+__all__=['MultipleApps', 'SingleApp']
 
-from multiapp.Hub import landingWindow
+from AppHub.Hub import MultipleApps, SingleApp
