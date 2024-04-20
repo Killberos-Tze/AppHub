@@ -1,3 +1,3 @@
-__all__=['MultipleApps', 'SingleApp']
+__all__=['MultipleApps']
 
-from AppHub.Hub import MultipleApps, SingleApp
+from AppHub.Hub import MultipleApps
