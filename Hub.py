@@ -8,7 +8,7 @@ class MultipleApps():
     def init_start(self):
         self.approot.mainloop()
     
-    def __init__(self,app_list=[None],hubgeometry=(350, 400, 50, 50)):
+    def __init__(self,app_list={None:None},hubgeometry=(350, 400, 50, 50)):
         self.approot = Tk()
         self.hubgeometry=hubgeometry
         self.approot.title('Application hub')
@@ -17,23 +17,22 @@ class MultipleApps():
         self.frameroot.pack(pady = (25,25), padx = (25,25))
         self.landingframe=Frame(self.frameroot)
         self.landingframe.grid(row=0,column=0)
-        if app_list==[None]:
-            app_list=[self.my_exit]
+        if app_list=={None:None}:
+            sys.exit()
         elif len(app_list)==1:
             self.landingframe.destroy()
-            tmp=app_list[0](parent=self.frameroot)
+            for item in app_list.values():
+                tmp=item(parent=self.frameroot)
             tmp.grid(row=0,column=0)
             self.approot.title(str(tmp))
-        try:
-            self.approot.geometry('%dx%d+%d+%d' % tmp.appgeometry)
-        except:
-            pass
+            try:
+                self.approot.geometry('%dx%d+%d+%d' % tmp.appgeometry)
+            except:
+                pass
             
         else:        
             self.apps_landing(self.landingframe,app_list)
-        
-    def my_exit(self):
-        sys.exit()
+
     
     def apps_landing(self,parent,app_list):
         row=0
