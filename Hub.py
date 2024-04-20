@@ -6,26 +6,34 @@ import sys
 
 class MultipleApps():
     def init_start(self):
-        self.root.mainloop()
+        self.approot.mainloop()
     
-    def __init__(self,**kwargs):
-        self.root = Tk()
-        self.root.title('Application hub')
-        self.root.geometry('%dx%d+%d+%d' % (350, 400, 50, 50))
-        self.rootframe = Frame(self.root)
-        self.rootframe.pack(pady = (25,25), padx = (25,25))
-        self.landingframe=Frame(self.rootframe)
+    def __init__(self,app_list=[None],hubgeometry=(350, 400, 50, 50)):
+        self.approot = Tk()
+        self.hubgeometry=hubgeometry
+        self.approot.title('Application hub')
+        self.approot.geometry('%dx%d+%d+%d' % self.hubgeometry)
+        self.frameroot = Frame(self.approot)
+        self.frameroot.pack(pady = (25,25), padx = (25,25))
+        self.landingframe=Frame(self.frameroot)
         self.landingframe.grid(row=0,column=0)
-        kwargs=self.process_kwargs(**kwargs)
-        self.apps_landing(self.landingframe,kwargs['app_list'])
+        if app_list==[None]:
+            app_list=[self.my_exit]
+        elif len(app_list)==1:
+            self.landingframe.destroy()
+            tmp=app_list[0](parent=self.frameroot)
+            tmp.grid(row=0,column=0)
+            self.approot.title(str(tmp))
+        try:
+            self.approot.geometry('%dx%d+%d+%d' % tmp.appgeometry)
+        except:
+            pass
+            
+        else:        
+            self.apps_landing(self.landingframe,app_list)
         
-    def my_exit(self,*args,**kwargs):
+    def my_exit(self):
         sys.exit()
-        
-    def process_kwargs(self,**kwargs):
-        if 'app_list' not in kwargs:
-            kwargs['app_list']=[self.my_exit]
-        return kwargs
     
     def apps_landing(self,parent,app_list):
         row=0
@@ -45,52 +53,29 @@ class MultipleApps():
 #
     def start_app(self,app,apps):
         self.landingframe.destroy()
-        self.landingframe=Frame(self.rootframe)
+        self.landingframe=Frame(self.frameroot)
         self.landingframe.grid(row=0,column=0)
         self.single_app_landing(apps)
         #AppWindow(parent=parent).grid(row=0,column=0)
         tmp=app(parent=self.mainframe)
         tmp.grid(row=0,column=0)
-        self.root.title(str(tmp))
-        self.root.geometry('%dx%d+%d+%d' % tmp.appgeometry)
+        self.approot.title(str(tmp))
+        self.approot.geometry('%dx%d+%d+%d' % tmp.appgeometry)
         #Button(parent, text="Go back", command=lambda frame=parent: self.stop_app(parent),width=12,bg='lightgray').grid(row=rowcount,column=1)
 #
         
     def stop_app(self,apps):
         self.landingframe.destroy()
-        self.landingframe=Frame(self.rootframe)
+        self.landingframe=Frame(self.frameroot)
         self.landingframe.grid(row=0,column=0)
         self.apps_landing(self.landingframe,app_list=apps)
-        self.root.title('Application hub')
-        self.root.geometry('%dx%d+%d+%d' % (350, 400, 50, 50))
+        self.approot.title('Application hub')
+        self.approot.geometry('%dx%d+%d+%d' % self.hubgeometry)
         
         
-class SingleApp(MultipleApps):
-    def init_start(self):
-        self.root.mainloop()
-    
-    def __init__(self,**kwargs):
-        self.root = Tk()
-        self.root.title('Application hub')
-        self.root.geometry('%dx%d+%d+%d' % (350, 400, 50, 50))
-        self.rootframe = Frame(self.root)
-        self.rootframe.pack(pady = (25,25), padx = (25,25))
-        self.process_kwargs(kwargs)
-        app=kwargs['app']
-        tmp=app(parent=self.rootframe)
-        tmp.grid(row=0,column=0)
-        self.root.title(str(tmp))
-        try:
-            self.root.geometry('%dx%d+%d+%d' % tmp.appgeometry)
-        except:
-            pass
 
      
-    def process_kwargs(self,kwargs):
-        if 'app' not in kwargs:
-            sys.exit()
-        return kwargs
-        
+       
 #if __name__=='__main__':
 #    MultipleApps.init_start(MultipleApps())
     
