@@ -8,11 +8,11 @@ class MultipleApps():
     def init_start(self):
         self.approot.mainloop()
     
-    def __init__(self,app_list={None:None},hubgeometry=(350, 400, 50, 50)):
+    def __init__(self,app_list={None:None},appgeometry=(350, 400, 50, 50)):
         self.approot = Tk()
-        self.hubgeometry=hubgeometry
+        self.appgeometry=appgeometry
         self.approot.title('Application hub')
-        self.approot.geometry('%dx%d+%d+%d' % self.hubgeometry)
+        self.approot.geometry('%dx%d+%d+%d' % self.appgeometry)
         self.frameroot = Frame(self.approot)
         self.frameroot.pack(pady = (25,25), padx = (25,25))
         self.landingframe=Frame(self.frameroot)
