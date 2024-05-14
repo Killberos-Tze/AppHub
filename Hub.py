@@ -69,7 +69,7 @@ class MultipleApps():
         self.landingframe.grid(row=0,column=0)
         self.apps_landing(self.landingframe,app_list=apps)
         self.approot.title('Application hub')
-        self.approot.geometry('%dx%d+%d+%d' % self.hubgeometry)
+        self.approot.geometry('%dx%d+%d+%d' % self.appgeometry)
         
         
 
