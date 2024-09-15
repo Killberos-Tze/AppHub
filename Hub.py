@@ -6,6 +6,7 @@ import sys
 
 class MultipleApps():
     def init_start(self):
+        self.approot.bind("<1>", lambda event: event.widget.focus_set())
         self.approot.mainloop()
     
     def __init__(self,app_list={None:None},appgeometry=(350, 400, 50, 50)):
